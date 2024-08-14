@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +9,29 @@ using UnityEngine.InputSystem;
 public class InputReader : ScriptableObject, GameInput.IPlayerActions
 {
     private GameInput _gameInput;
-    public event UnityAction<Vector2> MoveEvent
-        
-        
+    public event UnityAction<Vector2> MoveEvent = delegate { };
+    public event UnityAction FireEvent = delegate { }; 
+    
     public void OnMove(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        MoveEvent.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if (context.performed)
+        {
+            FireEvent.Invoke();
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (_gameInput == null)
+        {
+            _gameInput = new GameInput();
+            _gameInput.Player.SetCallbacks(this);
+            _gameInput.Player.Enable();
+        }
     }
 }

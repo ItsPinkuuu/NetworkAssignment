@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NetworkManagerUI : MonoBehaviour
@@ -23,6 +24,8 @@ public class NetworkManagerUI : MonoBehaviour
         else
         {
             StatusLabels();
+            
+            LeaveButton();
         }
         
         GUILayout.EndArea();
@@ -33,6 +36,7 @@ public class NetworkManagerUI : MonoBehaviour
         if (GUILayout.Button("Host")) m_networkManager.StartHost();
         if (GUILayout.Button("Client")) m_networkManager.StartClient();
         if (GUILayout.Button("Server")) m_networkManager.StartServer();
+        if (GUILayout.Button("Quit")) Application.Quit();
     }
 
     static void StatusLabels()
@@ -41,5 +45,18 @@ public class NetworkManagerUI : MonoBehaviour
 
         GUILayout.Label("Transport: " + m_networkManager.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);
+    }
+
+    static void LeaveButton()
+    {
+        if (m_networkManager.IsHost || m_networkManager.IsServer)
+        {
+            if(GUILayout.Button("Shutdown Server")) m_networkManager.Shutdown();
+        }
+        else
+        {
+            if(GUILayout.Button("Leave Server")) m_networkManager.Shutdown();
+        }
+        
     }
 }

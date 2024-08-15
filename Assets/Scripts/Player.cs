@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class Player : NetworkBehaviour
@@ -11,10 +12,20 @@ public class Player : NetworkBehaviour
 
     private NetworkVariable<Vector2> _moveInput = new NetworkVariable<Vector2>();
 
+    private Camera _camera;
+    private Transform _playerTransform;
+    private Rigidbody2D _playerRB;
     [SerializeField] private float _moveSpeed;
+
+
     
-    
-    
+    private void Awake()
+    {
+        _camera = Camera.main;
+        _playerTransform = GetComponent<Transform>();
+        _playerRB = GetComponent<Rigidbody2D>();
+    }
+
     private void Start()
     {
         if (_inputReader != null && IsLocalPlayer)

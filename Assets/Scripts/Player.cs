@@ -10,7 +10,8 @@ public class Player : NetworkBehaviour
 {
     [SerializeField] private InputReader _inputReader;
 
-    private NetworkVariable<Vector2> _moveInput = new NetworkVariable<Vector2>();
+    private NetworkVariable<Vector2> _moveInput = new();
+    private NetworkVariable<Vector2> _mousePos = new();
 
     private Camera _camera;
     private Transform _playerTransform;
@@ -34,8 +35,10 @@ public class Player : NetworkBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
+        
+        
         if (IsServer)
         {
             transform.position += (Vector3)_moveInput.Value * (_moveSpeed * Time.deltaTime);

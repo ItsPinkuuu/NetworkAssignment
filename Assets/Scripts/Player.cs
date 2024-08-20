@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private InputReader _inputReader;
 
     private NetworkVariable<Vector2> _moveInput = new();
-    private NetworkVariable<Vector2> _mousePos = new();
+    private NetworkVariable<Vector2> _mousePosNormalized = new();
 
     private Camera _camera;
     private Transform _playerTransform;
@@ -23,8 +23,6 @@ public class Player : NetworkBehaviour
     private void Awake()
     {
         _camera = Camera.main;
-        _playerTransform = GetComponent<Transform>();
-        _playerRB = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -35,9 +33,15 @@ public class Player : NetworkBehaviour
         }
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-        
+        var mouseWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
+        _mousePosNormalized.Value = (mouseWorld - transform.position).normalized;
+            
+        if (IsLocalPlayer)
+        {
+            transform.up = _mousePosNormalized.Value;
+        }
         
         if (IsServer)
         {
@@ -54,5 +58,10 @@ public class Player : NetworkBehaviour
     private void MoveServerRpc(Vector2 data)
     {
         _moveInput.Value = data;
+    }
+
+    private void OnFire(Vector2 input)
+    {
+        
     }
 }

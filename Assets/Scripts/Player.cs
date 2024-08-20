@@ -35,16 +35,16 @@ public class Player : NetworkBehaviour
 
     void FixedUpdate()
     {
-        var mouseWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
-        _mousePosNormalized.Value = (mouseWorld - transform.position).normalized;
-            
-        if (IsLocalPlayer)
-        {
-            transform.up = _mousePosNormalized.Value;
-        }
+        
+        
+        
         
         if (IsServer)
         {
+            var mouseWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
+            _mousePosNormalized.Value = (mouseWorld - transform.position).normalized;
+                    
+            transform.up = _mousePosNormalized.Value;
             transform.position += (Vector3)_moveInput.Value * (_moveSpeed * Time.deltaTime);
         }
     }
@@ -62,6 +62,6 @@ public class Player : NetworkBehaviour
 
     private void OnFire(Vector2 input)
     {
-        
+        return;
     }
 }

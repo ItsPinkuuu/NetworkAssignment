@@ -11,6 +11,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     private GameInput _gameInput;
     public event UnityAction<Vector2> MoveEvent = delegate { };
     public event UnityAction FireEvent = delegate { }; 
+    public event UnityAction<Vector2> RotateEvent = delegate { };
     
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -23,6 +24,11 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         {
             FireEvent.Invoke();
         }
+    }
+    
+    public void OnRotate(InputAction.CallbackContext context)
+    {
+        RotateEvent.Invoke(context.ReadValue<Vector2>());
     }
 
     private void OnEnable()

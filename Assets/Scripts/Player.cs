@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private InputReader _inputReader;
 
     private NetworkVariable<Vector2> _moveInput = new();
-    private NetworkVariable<Vector2> _mousePosNormalized = new();
+    private Vector2 _mousePosNormalized;
 
     private Camera _camera;
     private Transform _playerTransform;
@@ -19,7 +19,6 @@ public class Player : NetworkBehaviour
     [SerializeField] private float _moveSpeed;
 
 
-    
     private void Awake()
     {
         _camera = Camera.main;
@@ -35,16 +34,21 @@ public class Player : NetworkBehaviour
 
     void FixedUpdate()
     {
-        
-        
-        
-        
-        if (IsServer)
+        if (IsLocalPlayer && Application.isFocused)
         {
             var mouseWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
-            _mousePosNormalized.Value = (mouseWorld - transform.position).normalized;
-                    
-            transform.up = _mousePosNormalized.Value;
+            _mousePosNormalized = (mouseWorld - transform.position).normalized;
+
+            RotatePlayerServerRpc(_mousePosNormalized);
+
+            // if (Input.GetKeyDown((KeyCode.A)))
+            // {
+            //     MessageRpc("GG");
+            // }
+        }
+
+        if (IsServer)
+        {
             transform.position += (Vector3)_moveInput.Value * (_moveSpeed * Time.deltaTime);
         }
     }
@@ -60,8 +64,22 @@ public class Player : NetworkBehaviour
         _moveInput.Value = data;
     }
 
-    private void OnFire(Vector2 input)
+    [ServerRpc]
+    private void RotatePlayerServerRpc(Vector2 input)
     {
-        return;
+        transform.up = input.normalized;
     }
+
+    // [ServerRpc]
+    // private void MessageRpc(string message)
+    // {
+    //     //chat.singleton.displaychat(message, myId)
+    //     
+    //     //if(id == myid) put it in local window else put in global window
+    // }
+
+    // private void OnFire(Vector2 input)
+    // {
+    //     
+    // }
 }

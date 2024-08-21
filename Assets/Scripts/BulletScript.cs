@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,5 +12,20 @@ public class BulletScript : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         
+        StartCoroutine(DestroyBullet());
     }
+
+    private void Update()
+    {
+        GetComponent<Rigidbody2D>().velocity = transform.forward * _speed;
+    }
+
+    IEnumerator DestroyBullet()
+    {
+        yield return new WaitForSeconds(10f);
+        
+        Destroy(gameObject);
+    }
+    
+    
 }

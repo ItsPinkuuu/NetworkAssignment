@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3452888429476601918}
   - component: {fileID: -234078936163410886}
   - component: {fileID: 8811952807923144423}
+  - component: {fileID: 3501153332917419715}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -270,6 +271,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6895293066761850553, guid: 83a09be673bd1ad499917fa349f990e9, type: 3}
   InitialTransform: {fileID: 5146568360423050872}
+--- !u!114 &3501153332917419715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166831711048045869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62440d443441a24188ee0d52ae3ad90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    m_InternalValue: 100
 --- !u!1 &2307274955220047329
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +297,7 @@ GameObject:
   m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

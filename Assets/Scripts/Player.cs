@@ -82,4 +82,13 @@ public class Player : NetworkBehaviour
     // {
     //     
     // }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.GetComponent<BulletScript>() && GetComponent<NetworkObject>().OwnerClientId != collider.GetComponent<NetworkObject>().OwnerClientId)
+        {
+            Debug.Log("Hit player!");
+            GetComponent<HealthManager>().health.Value -= collider.GetComponent<BulletScript>()._damage;
+        }
+    }
 }

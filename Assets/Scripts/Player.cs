@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,21 +12,24 @@ public class Player : NetworkBehaviour
     [SerializeField] private InputReader _inputReader;
 
     private NetworkVariable<Vector2> _moveInput = new();
+    
     private Vector2 _mousePosNormalized;
-
     private Camera _camera;
     private Transform _playerTransform;
     private Rigidbody2D _playerRB;
+    [SerializeField] private TextMeshProUGUI _P1MessageTextBox;
+    [SerializeField] private TextMeshProUGUI _P2MessageTextBox;
     [SerializeField] private float _moveSpeed;
 
-
-    private void Awake()
+    
+    
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         _camera = Camera.main;
-    }
-
-    private void Start()
-    {
+        _P1MessageTextBox = GameObject.Find("P1Message").GetComponent<TextMeshProUGUI>();
+        _P2MessageTextBox = GameObject.Find("P2Message").GetComponent<TextMeshProUGUI>();
+        
         if (_inputReader != null && IsLocalPlayer)
         {
             _inputReader.MoveEvent += OnMove;
@@ -41,10 +45,16 @@ public class Player : NetworkBehaviour
 
             RotatePlayerServerRpc(_mousePosNormalized);
 
-            // if (Input.GetKeyDown((KeyCode.A)))
-            // {
-            //     MessageRpc("GG");
-            // }
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                UpdatePlayerMessageBoxServerRpc("Well Played!");
+            } else if (Input.GetKeyDown(KeyCode.J))
+            {
+                UpdatePlayerMessageBoxServerRpc("You SUCK!");
+            } else if (Input.GetKeyDown(KeyCode.K))
+            {
+                UpdatePlayerMessageBoxServerRpc("You Shoot Like A Chicken!");
+            }
         }
 
         if (IsServer)
@@ -70,25 +80,23 @@ public class Player : NetworkBehaviour
         transform.up = input.normalized;
     }
 
-    // [ServerRpc]
-    // private void MessageRpc(string message)
-    // {
-    //     //chat.singleton.displaychat(message, myId)
-    //     
-    //     //if(id == myid) put it in local window else put in global window
-    // }
-
-    // private void OnFire(Vector2 input)
-    // {
-    //     
-    // }
-
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.GetComponent<BulletScript>() && GetComponent<NetworkObject>().OwnerClientId != collider.GetComponent<NetworkObject>().OwnerClientId)
         {
-            Debug.Log("Hit player!");
             GetComponent<HealthManager>().health.Value -= collider.GetComponent<BulletScript>()._damage;
+        }
+    }
+
+    [ServerRpc]
+    private void UpdatePlayerMessageBoxServerRpc(string message)
+    {
+        if (OwnerClientId == 0)
+        {
+            _P1MessageTextBox.text = message;
+        } else if (OwnerClientId == 1)
+        {
+            _P2MessageTextBox.text = message;
         }
     }
 }

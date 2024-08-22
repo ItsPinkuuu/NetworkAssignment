@@ -34,14 +34,14 @@ public class NetworkManagerUI : MonoBehaviour
     static void StartButtons()
     {
         if (GUILayout.Button("Host")) m_networkManager.StartHost();
-        if (GUILayout.Button("Client")) m_networkManager.StartClient();
+        if (GUILayout.Button("Join")) m_networkManager.StartClient();
         if (GUILayout.Button("Server")) m_networkManager.StartServer();
         if (GUILayout.Button("Quit")) Application.Quit();
     }
 
     static void StatusLabels()
     {
-        var mode = m_networkManager.IsHost ? "Host" : m_networkManager.IsServer ? "Server" : "Client";
+        var mode = m_networkManager.IsHost ? "Host" : m_networkManager.IsServer ? "Server" : "Join";
 
         GUILayout.Label("Transport: " + m_networkManager.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);

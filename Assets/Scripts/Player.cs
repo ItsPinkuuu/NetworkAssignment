@@ -36,7 +36,7 @@ public class Player : NetworkBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (IsLocalPlayer && Application.isFocused)
         {
@@ -45,15 +45,15 @@ public class Player : NetworkBehaviour
 
             RotatePlayerServerRpc(_mousePosNormalized);
 
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                UpdatePlayerMessageBoxServerRpc("Well Played!");
-            } else if (Input.GetKeyDown(KeyCode.J))
+                SendPlayerMessageServerRpc("Well Played!");
+            } else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                UpdatePlayerMessageBoxServerRpc("You SUCK!");
-            } else if (Input.GetKeyDown(KeyCode.K))
+                SendPlayerMessageServerRpc("You SUCK!");
+            } else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                UpdatePlayerMessageBoxServerRpc("You Shoot Like A Chicken!");
+                SendPlayerMessageServerRpc("You Shoot Like A Chicken!");
             }
         }
 
@@ -89,14 +89,25 @@ public class Player : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void UpdatePlayerMessageBoxServerRpc(string message)
+    private void SendPlayerMessageServerRpc(string message)
+    {
+        HandlePlayerMessageBoxClientRpc(message);
+    }
+
+    [ClientRpc]
+    private void HandlePlayerMessageBoxClientRpc(string message)
+    {
+        UpdateMessageBox(message);
+    }
+
+    public void UpdateMessageBox(string message)
     {
         if (OwnerClientId == 0)
         {
-            _P1MessageTextBox.text = message;
+            NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>()._P1MessageTextBox.text = message;
         } else if (OwnerClientId == 1)
         {
-            _P2MessageTextBox.text = message;
+            NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>()._P2MessageTextBox.text = message;
         }
     }
 }

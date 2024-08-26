@@ -20,6 +20,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _P1MessageTextBox;
     [SerializeField] private TextMeshProUGUI _P2MessageTextBox;
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private bool _isWinner;
 
     
     
@@ -55,6 +56,8 @@ public class Player : NetworkBehaviour
             {
                 SendPlayerMessageServerRpc("You Shoot Like A Chicken!");
             }
+            
+            
         }
 
         if (IsServer)
@@ -100,7 +103,7 @@ public class Player : NetworkBehaviour
         UpdateMessageBox(message);
     }
 
-    public void UpdateMessageBox(string message)
+    private void UpdateMessageBox(string message)
     {
         if (OwnerClientId == 0)
         {

@@ -10,6 +10,7 @@ using UnityEngine.Serialization;
 public class Player : NetworkBehaviour
 {
     [SerializeField] private InputReader _inputReader;
+    [SerializeField] private GameManager _gameManager;
 
     private NetworkVariable<Vector2> _moveInput = new();
     
@@ -30,6 +31,15 @@ public class Player : NetworkBehaviour
         _camera = Camera.main;
         _P1MessageTextBox = GameObject.Find("P1Message").GetComponent<TextMeshProUGUI>();
         _P2MessageTextBox = GameObject.Find("P2Message").GetComponent<TextMeshProUGUI>();
+        _gameManager = GameObject.Find("NetworkManager").GetComponent<GameManager>();
+
+        if (OwnerClientId == 0)
+        {
+            _gameManager._player1 = gameObject;
+        } else if (OwnerClientId == 1)
+        {
+            _gameManager._player2 = gameObject;
+        }
         
         if (_inputReader != null && IsLocalPlayer)
         {

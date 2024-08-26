@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 170555497294742476}
   - component: {fileID: 276191584044394824}
   - component: {fileID: 3452888429476601918}
-  - component: {fileID: -234078936163410886}
   - component: {fileID: 8811952807923144423}
   - component: {fileID: 3501153332917419715}
   m_Layer: 0
@@ -244,21 +243,7 @@ MonoBehaviour:
   _P1MessageTextBox: {fileID: 0}
   _P2MessageTextBox: {fileID: 0}
   _moveSpeed: 5
---- !u!114 &-234078936163410886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 166831711048045869}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd14e046c151118458e281aa54ac25a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inputReader: {fileID: 11400000, guid: abadab7a51f3e7b479b74506f767253b, type: 2}
-  _playerRB: {fileID: -3148503304422903720}
-  _moveSpeed: 5
+  _isWinner: 0
 --- !u!114 &8811952807923144423
 MonoBehaviour:
   m_ObjectHideFlags: 0

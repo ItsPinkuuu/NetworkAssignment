@@ -457,6 +457,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541214fbccccf4240bbc83841d228aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _winnerScreenObject: {fileID: 0}
+  _loserScreenObject: {fileID: 0}
+  _player1: {fileID: 0}
+  _player2: {fileID: 0}
 --- !u!1 &415351209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,10 +1550,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoserScreen
       objectReference: {fileID: 0}
-    - target: {fileID: 9144289728693938736, guid: dd7572c7c762335419e8ab77737dc62a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1650,10 +1650,6 @@ PrefabInstance:
     - target: {fileID: 9135819428511286049, guid: bafa35d9394f4df4583422e315bb718e, type: 3}
       propertyPath: m_Name
       value: WinnerScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 9135819428511286049, guid: bafa35d9394f4df4583422e315bb718e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1866,9 +1862,9 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 124684822}
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 124684822}
   - {fileID: 415351211}
   - {fileID: 120200373}
   - {fileID: 1326409339}

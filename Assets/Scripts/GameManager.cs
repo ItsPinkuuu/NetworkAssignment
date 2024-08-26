@@ -26,8 +26,7 @@ public class GameManager : MonoBehaviour
         _winnerScreenObject = GameObject.Find("WinnerScreen");
         _loserScreenObject = GameObject.Find("LoserScreen");
         
-        _winnerScreenObject.SetActive(false);
-        _loserScreenObject.SetActive(false);
+        
     }
 
     private void Update()
@@ -44,10 +43,11 @@ public class GameManager : MonoBehaviour
     [ClientRpc]
     public void ShowWinLoseScreenClientRpc()
     {
-        _winnerScreenObject.SetActive(true);
-        _loserScreenObject.SetActive(true);
-            
-        _winnerScreenObject.GetComponent<NetworkObject>().NetworkShow(0);
-        _loserScreenObject.GetComponent<NetworkObject>().NetworkShow(1);
+        UpdateWinLoseScreen();
+    }
+
+    private void UpdateWinLoseScreen()
+    {
+        
     }
 }

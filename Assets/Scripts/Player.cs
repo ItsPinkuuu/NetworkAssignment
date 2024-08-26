@@ -22,6 +22,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _P2MessageTextBox;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private bool _isWinner;
+    [SerializeField] private float _score;
 
     
     

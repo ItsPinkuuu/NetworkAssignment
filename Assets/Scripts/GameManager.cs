@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Unity.Netcode;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject _winnerScreenObject;
-    [SerializeField] private GameObject _loserScreenObject;
+    [SerializeField] private GameObject _resultScreenObject;
     public GameObject _player1;
     public GameObject _player2;
 
@@ -15,39 +15,33 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        if (_player1 == null || _player2 == null)
-        {
-            return;
-        }
-    }
-
-    private void Start()
-    {
-        _winnerScreenObject = GameObject.Find("WinnerScreen");
-        _loserScreenObject = GameObject.Find("LoserScreen");
+        _resultScreenObject = GameObject.Find("ResultScreen");
         
-        
+        _resultScreenObject.SetActive(false);
     }
 
     private void Update()
     {
-        
-    }
+        if (IsServer)
+        {
+            if (_player1 == null || _player2 == null)
+            {
+                return;
+            }
+            
+            if (_player1.GetComponent<Player>()._isDead)
+            {
+                _resultScreenObject.SetActive(true);
 
-    [ServerRpc]
-    public void RequestShowScreenServerRpc()
-    {
-        ShowWinLoseScreenClientRpc();
-    }
-    
-    [ClientRpc]
-    public void ShowWinLoseScreenClientRpc()
-    {
-        UpdateWinLoseScreen();
-    }
+                NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>()._P1resultText.text = "LOSER";
+                NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>()._P2resultText.text = "WINNER";
+            } else if (_player2.GetComponent<Player>()._isDead)
+            {
+                _resultScreenObject.SetActive(true);
 
-    private void UpdateWinLoseScreen()
-    {
-        
+                NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>()._P1resultText.text = "WINNER";
+                NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>()._P2resultText.text = "LOSER";
+            }
+        }
     }
 }

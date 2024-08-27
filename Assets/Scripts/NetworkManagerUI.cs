@@ -51,11 +51,17 @@ public class NetworkManagerUI : MonoBehaviour
     {
         if (m_networkManager.IsHost || m_networkManager.IsServer)
         {
-            if(GUILayout.Button("Shutdown Server")) m_networkManager.Shutdown();
+            if (GUILayout.Button("Shutdown Server"))
+            {
+                m_networkManager.Shutdown();
+            }
         }
         else
         {
-            if(GUILayout.Button("Leave Server")) m_networkManager.Shutdown();
+            if (GUILayout.Button("Leave Server"))
+            {
+                m_networkManager.Shutdown();
+            }
         }
         
     }

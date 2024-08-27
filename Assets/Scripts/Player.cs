@@ -20,19 +20,21 @@ public class Player : NetworkBehaviour
     private Rigidbody2D _playerRB;
     [SerializeField] private TextMeshProUGUI _P1MessageTextBox;
     [SerializeField] private TextMeshProUGUI _P2MessageTextBox;
+    public TextMeshProUGUI _P1resultText;
+    public TextMeshProUGUI _P2resultText;
     [SerializeField] private float _moveSpeed;
-    [SerializeField] private bool _isWinner;
-    [SerializeField] private float _score;
+    public bool _isDead = false;
 
     
     
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        
         _camera = Camera.main;
         _P1MessageTextBox = GameObject.Find("P1Message").GetComponent<TextMeshProUGUI>();
         _P2MessageTextBox = GameObject.Find("P2Message").GetComponent<TextMeshProUGUI>();
-        _gameManager = GameObject.Find("NetworkManager").GetComponent<GameManager>();
+        _gameManager = GameObject.Find("__game__").GetComponent<GameManager>();
 
         if (OwnerClientId == 0)
         {
@@ -50,25 +52,26 @@ public class Player : NetworkBehaviour
 
     void Update()
     {
-        if (IsLocalPlayer && Application.isFocused)
+        if (IsSpawned)
         {
-            var mouseWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
-            _mousePosNormalized = (mouseWorld - transform.position).normalized;
+            if (IsLocalPlayer && Application.isFocused)
+            {
+                var mouseWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
+                _mousePosNormalized = (mouseWorld - transform.position).normalized;
 
-            RotatePlayerServerRpc(_mousePosNormalized);
+                RotatePlayerServerRpc(_mousePosNormalized);
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                SendPlayerMessageServerRpc("Well Played!");
-            } else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SendPlayerMessageServerRpc("You SUCK!");
-            } else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SendPlayerMessageServerRpc("You Shoot Like A Chicken!");
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    SendPlayerMessageServerRpc("Well Played!");
+                } else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    SendPlayerMessageServerRpc("You SUCK!");
+                } else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    SendPlayerMessageServerRpc("You Shoot Like A Chicken!");
+                }
             }
-            
-            
         }
 
         if (IsServer)
@@ -96,9 +99,12 @@ public class Player : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<BulletScript>() && GetComponent<NetworkObject>().OwnerClientId != collider.GetComponent<NetworkObject>().OwnerClientId)
+        if (IsServer)
         {
-            GetComponent<HealthManager>().health.Value -= collider.GetComponent<BulletScript>()._damage;
+            if (collider.GetComponent<BulletScript>() && GetComponent<NetworkObject>().OwnerClientId != collider.GetComponent<NetworkObject>().OwnerClientId)
+            {
+                GetComponent<HealthManager>().health.Value -= collider.GetComponent<BulletScript>()._damage;
+            }
         }
     }
 

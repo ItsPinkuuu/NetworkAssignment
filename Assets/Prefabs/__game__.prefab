@@ -65,6 +65,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541214fbccccf4240bbc83841d228aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _winnerScreenPrefab: {fileID: 9135819428511286049, guid: bafa35d9394f4df4583422e315bb718e, type: 3}
+  _loserScreenPrefab: {fileID: 9144289728693938736, guid: dd7572c7c762335419e8ab77737dc62a, type: 3}
   _winnerScreenObject: {fileID: 0}
   _loserScreenObject: {fileID: 0}
   _player1: {fileID: 0}

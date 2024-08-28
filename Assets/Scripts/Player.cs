@@ -34,6 +34,8 @@ public class Player : NetworkBehaviour
         _camera = Camera.main;
         _P1MessageTextBox = GameObject.Find("P1Message").GetComponent<TextMeshProUGUI>();
         _P2MessageTextBox = GameObject.Find("P2Message").GetComponent<TextMeshProUGUI>();
+        _P1resultText = GameObject.Find("P1Result").GetComponent<TextMeshProUGUI>();
+        _P2resultText = GameObject.Find("P2Result").GetComponent<TextMeshProUGUI>();
         _gameManager = GameObject.Find("__game__").GetComponent<GameManager>();
 
         if (OwnerClientId == 0)

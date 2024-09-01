@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class NetworkManagerUI : MonoBehaviour
 {
     private static NetworkManager m_networkManager;
 
+    
+    
     private void Awake()
     {
         m_networkManager = GetComponent<NetworkManager>();
@@ -63,6 +67,5 @@ public class NetworkManagerUI : MonoBehaviour
                 m_networkManager.Shutdown();
             }
         }
-        
     }
 }

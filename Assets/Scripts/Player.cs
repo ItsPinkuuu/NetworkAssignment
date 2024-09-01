@@ -48,13 +48,16 @@ public class Player : NetworkBehaviour
         
         if (_inputReader != null && IsLocalPlayer)
         {
-            _inputReader.MoveEvent += OnMove;
+            if (!_isDead)
+            {
+                _inputReader.MoveEvent += OnMove;
+            }
         }
     }
 
     void Update()
     {
-        if (IsSpawned)
+        if (!_isDead)
         {
             if (IsLocalPlayer && Application.isFocused)
             {

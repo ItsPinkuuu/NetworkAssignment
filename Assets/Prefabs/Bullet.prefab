@@ -238,4 +238,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 20
   _despawnTime: 2
-  _damage: 100
+  _damage: 0.5
